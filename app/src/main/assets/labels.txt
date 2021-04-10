@@ -1,6 +1,9 @@
 .ipynb_checkpoints
+battery
+clothes
 glass
 metal
 paper
 plastic
+shoes
 trash
