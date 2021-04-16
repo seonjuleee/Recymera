@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.ImageClassification">
         <activity
-            android:name=".ClassifierActivity"
+            android:name=".MainActivity"
             android:label="@string/tfe_ic_app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -24,5 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SearchActivity"></activity>
     </application>
 </manifest>
