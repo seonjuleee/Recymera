@@ -103,6 +103,7 @@ public abstract class CameraActivity extends AppCompatActivity
   protected void onCreate(final Bundle savedInstanceState) {
     LOGGER.d("onCreate " + this);
     super.onCreate(null);
+    // 화면을 켜진 상태로 유지
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     setContentView(R.layout.tfe_ic_activity_camera);
@@ -113,16 +114,28 @@ public abstract class CameraActivity extends AppCompatActivity
       requestPermission();
     }
 
+    // bottom_sheet에 있는 element의 id를 가져온다.
+    /*
     threadsTextView = findViewById(R.id.threads);
+    // plus, minus : Thread에서 개수를 세는 element
     plusImageView = findViewById(R.id.plus);
     minusImageView = findViewById(R.id.minus);
+     */
+    /*
     deviceSpinner = findViewById(R.id.device_spinner);
+    */
     bottomSheetLayout = findViewById(R.id.bottom_sheet_layout);
+    // gestureLayout : bottom_sheet 에서 사물인식 결과의 텍스트가 나오는 layout
     gestureLayout = findViewById(R.id.gesture_layout);
+    /*
     sheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
+     */
+    /*
     bottomSheetArrowImageView = findViewById(R.id.bottom_sheet_arrow);
+     */
 
     ViewTreeObserver vto = gestureLayout.getViewTreeObserver();
+    // addOnGlobalLayoutListener() : gestureLayout이 다 그려졌는지 확인하는 함수
     vto.addOnGlobalLayoutListener(
         new ViewTreeObserver.OnGlobalLayoutListener() {
           @Override
@@ -133,14 +146,25 @@ public abstract class CameraActivity extends AppCompatActivity
               gestureLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
             //                int width = bottomSheetLayout.getMeasuredWidth();
+
+            /* bottom_sheet의 높이로 설정해주었다.
+            int height = bottomSheetLayout.getMeasuredHeight();
+            */
             int height = gestureLayout.getMeasuredHeight();
 
+            /* setPeekHeight() : bottom_sheet 가 접힐 때 bottom_sheet의 높이를 설정한다.
             sheetBehavior.setPeekHeight(height);
+            */
           }
         });
-    sheetBehavior.setHideable(false);
 
-    sheetBehavior.setBottomSheetCallback(
+    /* setHideable() : bottom_sheet를 스왑했을 때 완전히 숨길 수 있는지 여부에 관한 함수
+    sheetBehavior.setHideable(false);
+    */
+
+    // bottom_sheet를 open 하거나 close 하는 버튼에 대한 내용
+    /*
+    sheetBehavior.setBottomSheetCallback( // setBottomSheetCallback() : bottom_sheet 이벤트가 발생할 때 알려주기 위한 콜백. (사용 비추천)
         new BottomSheetBehavior.BottomSheetCallback() {
           @Override
           public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -168,7 +192,12 @@ public abstract class CameraActivity extends AppCompatActivity
           @Override
           public void onSlide(@NonNull View bottomSheet, float slideOffset) {}
         });
+      */
 
+    // bottom_sheet의 element의 id를 가져오는 부분
+
+    // 사물 인식된 결과를 출력하는 element들
+    // 순서대로 클래스 명과 퍼센트 (ex. plastic 18%)
     recognitionTextView = findViewById(R.id.detected_item);
     recognitionValueTextView = findViewById(R.id.detected_item_value);
     recognition1TextView = findViewById(R.id.detected_item1);
@@ -176,19 +205,34 @@ public abstract class CameraActivity extends AppCompatActivity
     recognition2TextView = findViewById(R.id.detected_item2);
     recognition2ValueTextView = findViewById(R.id.detected_item2_value);
 
+    // 사물 인식 metaData
+    /*
     frameValueTextView = findViewById(R.id.frame_info);
     cropValueTextView = findViewById(R.id.crop_info);
     cameraResolutionTextView = findViewById(R.id.view_info);
     rotationTextView = findViewById(R.id.rotation_info);
     inferenceTimeTextView = findViewById(R.id.inference_info);
+     */
 
+    /*
     deviceSpinner.setOnItemSelectedListener(this);
+    */
 
+    /*
     plusImageView.setOnClickListener(this);
     minusImageView.setOnClickListener(this);
+     */
 
+    // device : bottom_sheet 안에 있는 device의 값을 string 형으로 반환하고, 그 값으로 초기화한다.
+    device = Device.valueOf("CPU");
+    /*
     device = Device.valueOf(deviceSpinner.getSelectedItem().toString());
+     */
+    // numThreads : bottom_sheet 안에 있는 threads의 값을 integer 형으로 변경하고, 그 값으로 초기화한다.
+    numThreads = Integer.parseInt("1");
+    /*
     numThreads = Integer.parseInt(threadsTextView.getText().toString().trim());
+     */
   }
 
   protected int[] getRgbBytes() {
@@ -314,7 +358,7 @@ public abstract class CameraActivity extends AppCompatActivity
   }
 
   @Override
-  public synchronized void onStart() {
+  public synchronized void onStart() {  // synchronized는 함수에 포함된 해당 객체에 lock을 건다.
     LOGGER.d("onStart " + this);
     super.onStart();
   }
@@ -417,6 +461,7 @@ public abstract class CameraActivity extends AppCompatActivity
     return requiredLevel <= deviceLevel;
   }
 
+  // 카메라 세팅
   private String chooseCamera() {
     final CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
     try {
@@ -453,7 +498,7 @@ public abstract class CameraActivity extends AppCompatActivity
     return null;
   }
 
-  protected void setFragment() {
+  protected void setFragment() {  // fragment는 액티비티를 모듈화 한 단위. 여러 개의 fragment로 액티비티에 여러 개의 UI를 빌드할 수 있다.
     String cameraId = chooseCamera();
 
     Fragment fragment;
@@ -482,7 +527,7 @@ public abstract class CameraActivity extends AppCompatActivity
     getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
   }
 
-  protected void fillBytes(final Plane[] planes, final byte[][] yuvBytes) {
+  protected void fillBytes(final Plane[] planes, final byte[][] yuvBytes) { // plane : 이미지 데이터의 단일 색상 면(?), 이미지가 종료되면 여기 접근할 수 없다.
     // Because of the variable row stride it's not possible to know in
     // advance the actual necessary dimensions of the yuv planes.
     for (int i = 0; i < planes.length; ++i) {
@@ -514,7 +559,14 @@ public abstract class CameraActivity extends AppCompatActivity
     }
   }
 
+  //
+  //
+  //
+
   @UiThread
+  // bottom_sheet에 있는 element에게 출력할 데이터를 세팅하는 함수 정의
+
+  // 사물인식 결과 데이터를 출력
   protected void showResultsInBottomSheet(List<Recognition> results) {
     if (results != null && results.size() >= 3) {
       Recognition recognition = results.get(0);
@@ -543,6 +595,7 @@ public abstract class CameraActivity extends AppCompatActivity
     }
   }
 
+  // 사물인식 metaData
   protected void showFrameInfo(String frameInfo) {
     frameValueTextView.setText(frameInfo);
   }
@@ -563,6 +616,9 @@ public abstract class CameraActivity extends AppCompatActivity
     inferenceTimeTextView.setText(inferenceTime);
   }
 
+  // 아래 두 UI는 값을 다른 곳에서 받아서(get) 출력한다(set)
+
+  // bottom_sheet 안에 있는 device 의 값을 가져오는 함수
   protected Device getDevice() {
     return device;
   }
@@ -579,6 +635,7 @@ public abstract class CameraActivity extends AppCompatActivity
     }
   }
 
+  // integer 형으로 변환한 bottom_sheet 안에 있는 Threads의 값을 가져오는 함수
   protected int getNumThreads() {
     return numThreads;
   }
@@ -603,6 +660,9 @@ public abstract class CameraActivity extends AppCompatActivity
 
   @Override
   public void onClick(View v) {
+    /*
+    CameraConnection~.java 에서 onClick()을 사용하지 않아서 주석 처리함. (없어도 실행됨)
+
     if (v.getId() == R.id.plus) {
       String threads = threadsTextView.getText().toString().trim();
       int numThreads = Integer.parseInt(threads);
@@ -615,16 +675,19 @@ public abstract class CameraActivity extends AppCompatActivity
       if (numThreads == 1) {
         return;
       }
-      setNumThreads(--numThreads);
+      setNumThreads(--numThreads)
       threadsTextView.setText(String.valueOf(numThreads));
     }
+    */
   }
 
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+    /*
     if (parent == deviceSpinner) {
       setDevice(Device.valueOf(parent.getItemAtPosition(pos).toString()));
     }
+    */
   }
 
   @Override

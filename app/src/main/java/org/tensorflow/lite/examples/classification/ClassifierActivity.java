@@ -94,16 +94,19 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
               lastProcessingTimeMs = SystemClock.uptimeMillis() - startTime;
               LOGGER.v("Detect: %s", results);
 
+              // bottom_sheet 에 있는 element 들이 출력을 실행하는 부분.
               runOnUiThread(
                   new Runnable() {
                     @Override
                     public void run() {
                       showResultsInBottomSheet(results);
+                      /*
                       showFrameInfo(previewWidth + "x" + previewHeight);
                       showCropInfo(imageSizeX + "x" + imageSizeY);
                       showCameraResolution(cropSize + "x" + cropSize);
                       showRotationInfo(String.valueOf(sensorOrientation));
                       showInference(lastProcessingTimeMs + "ms");
+                      */
                     }
                   });
             }

@@ -556,6 +556,7 @@ public class CameraConnectionFragment extends Fragment {
       return dialog;
     }
 
+    /*
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
       final Activity activity = getActivity();
@@ -571,5 +572,6 @@ public class CameraConnectionFragment extends Fragment {
               })
           .create();
     }
+    */
   }
 }
