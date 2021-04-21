@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.tensorflow.lite.examples.classification.tflite.Classifier;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private GridLayoutManager gridLayoutManager;
 
-    private Button button;
+    private Button btn_search, btn_camera;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +30,20 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        button = findViewById(R.id.btn_search) ;
-        button.setOnClickListener(new View.OnClickListener() {
+        btn_search = findViewById(R.id.btn_search) ;
+        btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_camera = findViewById(R.id.btn_camera) ;
+        btn_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ClassifierActivity.class);
                 startActivity(intent);
             }
         });
