@@ -19,6 +19,7 @@ package org.tensorflow.lite.examples.classification;
 import android.Manifest;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
@@ -35,6 +36,8 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Trace;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
 import android.view.View;
@@ -200,10 +203,10 @@ public abstract class CameraActivity extends AppCompatActivity
     // 순서대로 클래스 명과 퍼센트 (ex. plastic 18%)
     recognitionTextView = findViewById(R.id.detected_item);
     recognitionValueTextView = findViewById(R.id.detected_item_value);
-    recognition1TextView = findViewById(R.id.detected_item1);
-    recognition1ValueTextView = findViewById(R.id.detected_item1_value);
-    recognition2TextView = findViewById(R.id.detected_item2);
-    recognition2ValueTextView = findViewById(R.id.detected_item2_value);
+//    recognition1TextView = findViewById(R.id.detected_item1);
+//    recognition1ValueTextView = findViewById(R.id.detected_item1_value);
+//    recognition2TextView = findViewById(R.id.detected_item2);
+//    recognition2ValueTextView = findViewById(R.id.detected_item2_value);
 
     // 사물 인식 metaData
     /*
@@ -568,6 +571,39 @@ public abstract class CameraActivity extends AppCompatActivity
 
   // 사물인식 결과 데이터를 출력
   protected void showResultsInBottomSheet(List<Recognition> results) {
+    // 물체를 분류한 후 카메라 화면 띄우기
+    if (results != null && results.size() >= 1) {
+      // 1. 분류한 데이터값을 실시간으로 가져오기
+      Recognition recognition = results.get(0);
+      if (recognition != null) {
+        // 2. 값이 40프로 이상 되면 bottom_sheet visible
+        if (recognition.getConfidence() != null) {
+          if (recognition.getConfidence() > 0.4) {
+            bottomSheetLayout.setVisibility(View.VISIBLE);
+            if (recognition.getTitle() != null) {
+              recognitionTextView.setText(recognition.getTitle());
+              // 레이아웃 클릭했을 때 이벤트 발생 -> 일단은 toast 발생하는 것으로 설정해놓음
+              bottomSheetLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                  Toast.makeText(view.getContext(), recognition.getTitle(), Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+//                startActivity(intent);
+                }
+              });
+            }
+            recognitionValueTextView.setText(
+                    String.format("%.2f", (100 * recognition.getConfidence())) + "%");
+
+
+          } else { // 3. 아니면 invisible
+            bottomSheetLayout.setVisibility(View.INVISIBLE);
+          }
+        }
+      }
+    }
+    /*
+    // 기존 코드 삭제
     if (results != null && results.size() >= 3) {
       Recognition recognition = results.get(0);
       if (recognition != null) {
@@ -593,6 +629,8 @@ public abstract class CameraActivity extends AppCompatActivity
               String.format("%.2f", (100 * recognition2.getConfidence())) + "%");
       }
     }
+
+     */
   }
 
   // 사물인식 metaData

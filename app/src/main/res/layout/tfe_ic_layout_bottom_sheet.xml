@@ -13,6 +13,27 @@
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/detected_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="TextView"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/detected_item_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/gesture_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,6 +57,10 @@
             android:layout_gravity="center"
             android:src="@drawable/icn_chevron_up" />
         -->
+
+
+        <!--
+        second layout
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -105,6 +130,7 @@
                 android:textSize="12sp" />
 
         </LinearLayout>
+-->
 
         <!--
         <View
