@@ -95,7 +95,7 @@ public abstract class CameraActivity extends AppCompatActivity
       rotationTextView,
       inferenceTimeTextView;
   protected ImageView bottomSheetArrowImageView;
-  private ImageView plusImageView, minusImageView;
+  private ImageView plusImageView, minusImageView, recognitionImageView;
   private Spinner deviceSpinner;
   private TextView threadsTextView;
 
@@ -203,6 +203,7 @@ public abstract class CameraActivity extends AppCompatActivity
     // 순서대로 클래스 명과 퍼센트 (ex. plastic 18%)
     recognitionTextView = findViewById(R.id.detected_item);
     recognitionValueTextView = findViewById(R.id.detected_item_value);
+    recognitionImageView = findViewById(R.id.detected_item_img);
 //    recognition1TextView = findViewById(R.id.detected_item1);
 //    recognition1ValueTextView = findViewById(R.id.detected_item1_value);
 //    recognition2TextView = findViewById(R.id.detected_item2);
@@ -582,6 +583,31 @@ public abstract class CameraActivity extends AppCompatActivity
             bottomSheetLayout.setVisibility(View.VISIBLE);
             if (recognition.getTitle() != null) {
               recognitionTextView.setText(recognition.getTitle());
+
+              switch (recognition.getTitle()) {
+                case "plastic" :
+                  recognitionImageView.setImageResource(R.drawable.img_plastic);
+                  break;
+                case "metal" :
+                  recognitionImageView.setImageResource(R.drawable.img_metal);
+                  break;
+                case "glass" :
+                  recognitionImageView.setImageResource(R.drawable.img_glass);
+                  break;
+                case "paper" :
+                  recognitionImageView.setImageResource(R.drawable.img_paper);
+                  break;
+                case "clothes" :
+                  recognitionImageView.setImageResource(R.drawable.img_clothes);
+                  break;
+                case "battery" :
+                  recognitionImageView.setImageResource(R.drawable.img_battery);
+                  break;
+                default:
+                  recognitionImageView.setImageResource(R.drawable.img_trash);
+                  break;
+              }
+
               // 레이아웃 클릭했을 때 이벤트 발생 -> 일단은 toast 발생하는 것으로 설정해놓음
               bottomSheetLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
