@@ -629,13 +629,13 @@ public abstract class CameraActivity extends AppCompatActivity
                   break;
               }
 
-              // 레이아웃 클릭했을 때 이벤트 발생 -> 일단은 toast 발생하는 것으로 설정해놓음
+              // 레이아웃 클릭했을 때 이벤트 발생
               bottomSheetLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                  Toast.makeText(view.getContext(), recognition.getTitle(), Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
-//                startActivity(intent);
+                  Intent intent = new Intent(view.getContext(), DetailActivity.class);
+                  intent.putExtra("text_title", recognitionTextView.getText());
+                  view.getContext().startActivity(intent);
                 }
               });
             }

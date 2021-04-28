@@ -1,10 +1,12 @@
 package org.tensorflow.lite.examples.classification;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +35,16 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
     public void onBindViewHolder(@NonNull MainAdapter.CustomViewHolder holder, int position) {
         holder.iv_main_item.setImageResource(arrayList.get(position).getImage());
         holder.tv_main_item.setText(arrayList.get(position).getName());
+
+        // 클릭 이벤트 리스너
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), DetailActivity.class);
+                intent.putExtra("text_title", holder.tv_main_item.getText());
+                view.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
