@@ -9,13 +9,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:orientation="vertical">
-        <!-- origin 코드 => 주석 이유 : Emulator에서 camera 버튼이 안보임
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        -->
 
         <Button
             android:id="@+id/btn_search"
@@ -59,19 +54,4 @@
             android:layout_gravity="center|clip_vertical"
             android:text="Camera" />
     </LinearLayout>
-    <!--
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/btn_camera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|clip_vertical"
-            android:text="Camera" />
-    </LinearLayout>
-    -->
 </LinearLayout>
