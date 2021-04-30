@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -15,18 +16,30 @@ public class DetailActivity extends AppCompatActivity {
     private DetailAdapter detailAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+    private TextView tv_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        /*
         getIncomingIntent();
+        */
 
         recyclerView = findViewById(R.id.rv_detail);
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
+
+        tv_title = findViewById(R.id.detail_title);
+
+        Intent intent = getIntent();
+        String str = intent.getStringExtra("str");
+
+        tv_title.setText(str);
+
+        // RecyclerView
         arrayList = new ArrayList<>();
 
         arrayList.add(new DetailItemData("신문", "물기에 젖지 않도록 하고 반득하게 펴서 쌓은 후 묶어서 배출한다"));
@@ -37,7 +50,8 @@ public class DetailActivity extends AppCompatActivity {
         recyclerView.setAdapter(detailAdapter);
     }
 
-    private void getIncomingIntent() {
+
+   private void getIncomingIntent() {
         if(getIntent().hasExtra("text_title")) {
             String title = getIntent().getStringExtra("text_title");
             setDetailTitle(title);
@@ -45,7 +59,8 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void setDetailTitle(String title) {
-        TextView tvDetailTitle = findViewById(R.id.detail_title);
-        tvDetailTitle.setText(title);
+        tv_title = findViewById(R.id.detail_title);
+        tv_title.setText(title);
     }
+
 }

@@ -8,15 +8,21 @@
     tools:context=".DetailActivity">
 
     <TextView
-        android:id="@+id/tv_detail_title"
+        android:id="@+id/detail_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="종이류"
-        android:textSize="40sp"
         android:gravity="center"
-        android:padding="50dp"/>
+        android:padding="50dp"
+        android:text="TextView"
+        android:textSize="40sp"/>
 
-    <!--스크롤 뷰을 사용해서 bottom은 마진을 주지 않았음-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- origin 코드
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -108,4 +114,5 @@
             </TableLayout>
         </LinearLayout>
     </ScrollView>
+    -->
 </LinearLayout>
