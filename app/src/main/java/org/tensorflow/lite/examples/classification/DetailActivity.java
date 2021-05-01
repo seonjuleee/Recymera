@@ -18,28 +18,15 @@ public class DetailActivity extends AppCompatActivity {
     private DetailAdapter detailAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private TextView tv_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-
-
-
         recyclerView = findViewById(R.id.rv_detail);
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-
-
-
-//        Intent intent = getIntent();
-//        String str = intent.getStringExtra("str");
-
-//        tv_title = findViewById(R.id.detail_title);
-//        tv_title.setText(str);
-//        setDetailTitle(str);
 
         // RecyclerView
         arrayList = new ArrayList<>();
@@ -49,7 +36,7 @@ public class DetailActivity extends AppCompatActivity {
         detailAdapter = new DetailAdapter(arrayList);
         recyclerView.setAdapter(detailAdapter);
     }
-    
+
     // intent에서 값 가져오기
    private void getIncomingIntent() {
         if(getIntent().hasExtra("title")) {
@@ -61,7 +48,7 @@ public class DetailActivity extends AppCompatActivity {
 
     // activity_detail.xml 파일에서 title 설정
     private void setDetailTitle(String title) {
-        tv_title = findViewById(R.id.detail_title);
+        TextView tv_title = findViewById(R.id.detail_title);
         tv_title.setText(title);
     }
 

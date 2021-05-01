@@ -6,7 +6,9 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,13 +20,14 @@ import java.util.Arrays;
 public class SearchActivity extends AppCompatActivity {
 
     private ArrayList<SearchItemData> arrayList;
-    private ArrayList<String> keyMetal, keyPlastic;
+    ArrayList<String> keyBattery, keyClothes, keyGlass, keyMetal, keyPaper, keyPlastic, keyTrash;
     private SearchAdapter searchAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private EditText et_searchBar;
     private Button btn_searchBar;
     private String str;
+    private static final int REQUEST_CODE = 26;  // detailActivity와 연결을 위한 임의의 상수 값을 선언
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +46,39 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         // 검색 키워드를 정의
+        keyBattery = new ArrayList<>();
+        keyBattery.add("건전지");
+
+        keyClothes = new ArrayList<>();
+        keyClothes.add("가방");
+        keyClothes.add("커튼");
+        keyClothes.add("면티");
+
+        keyGlass = new ArrayList<>();
+        keyGlass.add("주스병");
+        keyGlass.add("콜라병");
+
         keyMetal = new ArrayList<>();
-        keyMetal.add("캔류");
-        keyMetal.add("캔");
+        keyMetal.add("부탄가스");
+        keyMetal.add("음료수캔");
+        keyMetal.add("철사");
+        keyMetal.add("못");
+
+        keyPaper = new ArrayList<>();
+        keyPaper.add("우유팩");
+        keyPaper.add("신문");
+        keyPaper.add("공책");
+        keyPaper.add("종이컵");
+        keyPaper.add("상자");
 
         keyPlastic = new ArrayList<>();
-        keyPlastic.add("플라스틱류");
-        keyPlastic.add("플라스틱");
+        keyPlastic.add("페트병");
+        keyPlastic.add("플라스틱용기");
+
+        keyTrash = new ArrayList<>();
+        keyTrash.add("가위");
+        keyTrash.add("거울");
+        keyTrash.add("깨진 유리");
 
         // 버튼을 눌렀을 때 + 엔터키를 눌렀을 때 intent가 실행
         btn_searchBar.setOnClickListener(new View.OnClickListener() {
@@ -57,8 +86,10 @@ public class SearchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 str = classifier(et_searchBar.getText().toString());
                 Intent intent = new Intent(SearchActivity.this, DetailActivity.class);
-                intent.putExtra("title", str);
-                startActivity(intent);
+
+                intent.putExtra("text_title", str);
+                //startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
 
@@ -69,8 +100,10 @@ public class SearchActivity extends AppCompatActivity {
                     case KeyEvent.KEYCODE_ENTER:
                         str = classifier(et_searchBar.getText().toString());
                         Intent intent = new Intent(SearchActivity.this, DetailActivity.class);
-                        intent.putExtra("title", str);
-                        startActivity(intent);
+
+                        intent.putExtra("text_title", str);
+                        //startActivity(intent);
+                        startActivityForResult(intent, REQUEST_CODE);
                         break;
                 }
                 return true;
@@ -101,10 +134,31 @@ public class SearchActivity extends AppCompatActivity {
 
     // 검색 키워드를 특정 종류로 일반화하는 함수
     private String classifier(String keyword) {
-        if (keyPlastic.contains(keyword)) {
+        if (keyBattery.contains(keyword)) {
+            return "폐건전지";
+        } else if (keyClothes.contains(keyword)) {
+            return "폐의류";
+        } else if (keyGlass.contains(keyword)) {
+            return "유리류";
+        } else if (keyMetal.contains(keyword)) {
+            return "캔류";
+        } else if (keyPaper.contains(keyword)) {
+            return "종이류";
+        } else if (keyPlastic.contains(keyword)) {
             return "플라스틱류";
         } else {
-            return "캔류";
+            return "일반 쓰레기";
+        }
+     }
+
+     // detailAcitivy에서 돌아왔을 때 실행되는 함수
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE) {
+            et_searchBar.getText().clear();
+            et_searchBar.clearFocus();
         }
     }
 }
