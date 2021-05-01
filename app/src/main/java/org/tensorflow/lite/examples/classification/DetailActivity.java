@@ -5,10 +5,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -23,44 +25,80 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        /*
-        getIncomingIntent();
-        */
+
+
 
         recyclerView = findViewById(R.id.rv_detail);
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
 
-        tv_title = findViewById(R.id.detail_title);
 
-        Intent intent = getIntent();
-        String str = intent.getStringExtra("str");
+//        Intent intent = getIntent();
+//        String str = intent.getStringExtra("str");
 
-        tv_title.setText(str);
+//        tv_title = findViewById(R.id.detail_title);
+//        tv_title.setText(str);
+//        setDetailTitle(str);
 
         // RecyclerView
         arrayList = new ArrayList<>();
 
-        arrayList.add(new DetailItemData("신문", "물기에 젖지 않도록 하고 반득하게 펴서 쌓은 후 묶어서 배출한다"));
-        arrayList.add(new DetailItemData("책자, 노트", "다른 재질 부분(플라스틱 표지, 스프링 등)은 가급적 제거하여 배출한다"));
-        arrayList.add(new DetailItemData("상자", "상자에 붙어있는 테이프,철핀,택배영수증 등 이물질을 제거한 후 배출한다"));
 
+        getIncomingIntent();
         detailAdapter = new DetailAdapter(arrayList);
         recyclerView.setAdapter(detailAdapter);
     }
-
-
+    
+    // intent에서 값 가져오기
    private void getIncomingIntent() {
-        if(getIntent().hasExtra("text_title")) {
-            String title = getIntent().getStringExtra("text_title");
+        if(getIntent().hasExtra("title")) {
+            String title = getIntent().getStringExtra("title");
             setDetailTitle(title);
+            setDetailContent(title);
         }
     }
 
+    // activity_detail.xml 파일에서 title 설정
     private void setDetailTitle(String title) {
         tv_title = findViewById(R.id.detail_title);
         tv_title.setText(title);
+    }
+
+    private void setDetailContent(String title) {
+        // string-resource
+        Resources res = getResources();
+        ArrayList<String> items = new ArrayList<>();
+        switch (title) {
+            case "종이류":
+                Collections.addAll(items, res.getStringArray(R.array.paper));
+                break;
+            case "플라스틱류":
+                Collections.addAll(items, res.getStringArray(R.array.plastic));
+                break;
+            case "캔류":
+                Collections.addAll(items, res.getStringArray(R.array.metal));
+                break;
+            case "유리류":
+                Collections.addAll(items, res.getStringArray(R.array.glass));
+                break;
+            case "의류":
+                Collections.addAll(items, res.getStringArray(R.array.clothes));
+                break;
+            case "폐건전지":
+                Collections.addAll(items, res.getStringArray(R.array.battery));
+                break;
+            case "일반쓰레기":
+                Collections.addAll(items, res.getStringArray(R.array.trash));
+                break;
+        }
+        System.out.println(1);
+        for (String i : items) {
+            // title과 content로 나누기
+            System.out.println(2);
+            String[] result = i.split(";");
+            arrayList.add(new DetailItemData(result[0].toString(), result[1].toString()));
+        }
     }
 
 }

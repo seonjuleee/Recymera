@@ -57,7 +57,7 @@ public class SearchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 str = classifier(et_searchBar.getText().toString());
                 Intent intent = new Intent(SearchActivity.this, DetailActivity.class);
-                intent.putExtra("str", str);
+                intent.putExtra("title", str);
                 startActivity(intent);
             }
         });
@@ -69,7 +69,7 @@ public class SearchActivity extends AppCompatActivity {
                     case KeyEvent.KEYCODE_ENTER:
                         str = classifier(et_searchBar.getText().toString());
                         Intent intent = new Intent(SearchActivity.this, DetailActivity.class);
-                        intent.putExtra("str", str);
+                        intent.putExtra("title", str);
                         startActivity(intent);
                         break;
                 }
