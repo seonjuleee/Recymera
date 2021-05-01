@@ -101,7 +101,7 @@ public class SearchActivity extends AppCompatActivity {
                         str = classifier(et_searchBar.getText().toString());
                         Intent intent = new Intent(SearchActivity.this, DetailActivity.class);
 
-                        intent.putExtra("text_title", str);
+                        intent.putExtra("title", str);
                         //startActivity(intent);
                         startActivityForResult(intent, REQUEST_CODE);
                         break;
