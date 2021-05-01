@@ -87,7 +87,7 @@ public class SearchActivity extends AppCompatActivity {
                 str = classifier(et_searchBar.getText().toString());
                 Intent intent = new Intent(SearchActivity.this, DetailActivity.class);
 
-                intent.putExtra("text_title", str);
+                intent.putExtra("title", str);
                 //startActivity(intent);
                 startActivityForResult(intent, REQUEST_CODE);
             }
@@ -137,7 +137,7 @@ public class SearchActivity extends AppCompatActivity {
         if (keyBattery.contains(keyword)) {
             return "폐건전지";
         } else if (keyClothes.contains(keyword)) {
-            return "폐의류";
+            return "의류";
         } else if (keyGlass.contains(keyword)) {
             return "유리류";
         } else if (keyMetal.contains(keyword)) {
@@ -147,7 +147,7 @@ public class SearchActivity extends AppCompatActivity {
         } else if (keyPlastic.contains(keyword)) {
             return "플라스틱류";
         } else {
-            return "일반 쓰레기";
+            return "일반쓰레기";
         }
      }
 
