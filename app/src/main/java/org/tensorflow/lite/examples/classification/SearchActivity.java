@@ -78,33 +78,44 @@ public class SearchActivity extends AppCompatActivity {
         keyTrash = new ArrayList<>();
         keyTrash.add("가위");
         keyTrash.add("거울");
-        keyTrash.add("깨진 유리");
+        keyTrash.add("깨진유리");
+
 
         // 버튼을 눌렀을 때 + 엔터키를 눌렀을 때 intent가 실행
         btn_searchBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                str = classifier(et_searchBar.getText().toString());
-                Intent intent = new Intent(SearchActivity.this, DetailActivity.class);
-
-                intent.putExtra("title", str);
-                //startActivity(intent);
-                startActivityForResult(intent, REQUEST_CODE);
+                str = et_searchBar.getText().toString().replace(" ","");
+                // 빈 문자열인지 체크
+                if (str.length() > 0) {
+                    str = classifier(str);
+                    Intent intent = new Intent(SearchActivity.this, DetailActivity.class);
+                    intent.putExtra("title", str);
+                    //startActivity(intent);
+                    startActivityForResult(intent, REQUEST_CODE);
+                } else {
+                    // editText를 초기화
+                    et_searchBar.getText().clear();
+                }
             }
         });
 
         et_searchBar.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                switch (keyCode) {
-                    case KeyEvent.KEYCODE_ENTER:
-                        str = classifier(et_searchBar.getText().toString());
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
+                    str = et_searchBar.getText().toString().replace(" ","");
+                    if (str.length() > 0) {
+                        str = classifier(str);
                         Intent intent = new Intent(SearchActivity.this, DetailActivity.class);
 
                         intent.putExtra("title", str);
                         //startActivity(intent);
                         startActivityForResult(intent, REQUEST_CODE);
-                        break;
+                    } else {
+                        // editText를 초기화
+                        et_searchBar.getText().clear();
+                    }
                 }
                 return true;
             }
