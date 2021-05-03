@@ -634,7 +634,7 @@ public abstract class CameraActivity extends AppCompatActivity
                 @Override
                 public void onClick(View view) {
                   Intent intent = new Intent(view.getContext(), DetailActivity.class);
-                  intent.putExtra("text_title", recognitionTextView.getText());
+                  intent.putExtra("title", recognitionTextView.getText());
                   view.getContext().startActivity(intent);
                 }
               });

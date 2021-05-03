@@ -41,7 +41,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), DetailActivity.class);
-                intent.putExtra("text_title", holder.tv_main_item.getText());
+                intent.putExtra("title", holder.tv_main_item.getText());
                 view.getContext().startActivity(intent);
             }
         });
