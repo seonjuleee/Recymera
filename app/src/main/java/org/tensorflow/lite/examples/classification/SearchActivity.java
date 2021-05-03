@@ -103,20 +103,18 @@ public class SearchActivity extends AppCompatActivity {
         et_searchBar.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                switch (keyCode) {
-                    case KeyEvent.KEYCODE_ENTER:
-                        str = et_searchBar.getText().toString().replace(" ","");
-                        if (str.length() > 0) {
-                            str = classifier(str);
-                            Intent intent = new Intent(SearchActivity.this, DetailActivity.class);
-                            intent.putExtra("text_title", str);
-                            //startActivity(intent);
-                            startActivityForResult(intent, REQUEST_CODE);
-                        } else {
-                            // editText를 초기화
-                            et_searchBar.getText().clear();
-                        }
-                        break;
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
+                    str = et_searchBar.getText().toString().replace(" ","");
+                    if (str.length() > 0) {
+                        str = classifier(str);
+                        Intent intent = new Intent(SearchActivity.this, DetailActivity.class);
+                        intent.putExtra("text_title", str);
+                        //startActivity(intent);
+                        startActivityForResult(intent, REQUEST_CODE);
+                    } else {
+                        // editText를 초기화
+                        et_searchBar.getText().clear();
+                    }
                 }
                 return true;
             }
