@@ -6,6 +6,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -128,9 +129,9 @@ public class SearchActivity extends AppCompatActivity {
 
         arrayList = new ArrayList<>();
 
-        arrayList.add(new SearchItemData(R.drawable.ic_launcher_foreground, "플라스틱류"));
-        arrayList.add(new SearchItemData(R.drawable.ic_launcher_foreground, "유리류"));
-        arrayList.add(new SearchItemData(R.drawable.ic_launcher_foreground, "종이류"));
+        arrayList.add(new SearchItemData(R.drawable.icon_plastic, "플라스틱류"));
+        arrayList.add(new SearchItemData(R.drawable.icon_glass, "유리류"));
+        arrayList.add(new SearchItemData(R.drawable.icon_paper, "종이류"));
 
 
         searchAdapter = new SearchAdapter(arrayList);
