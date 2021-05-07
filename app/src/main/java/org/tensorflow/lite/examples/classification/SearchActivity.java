@@ -3,10 +3,13 @@ package org.tensorflow.lite.examples.classification;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,14 +25,15 @@ import java.util.Comparator;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private ArrayList<SearchItemData> arrayList;
-    ArrayList<String> keyBattery, keyClothes, keyGlass, keyMetal, keyPaper, keyPlastic, keyTrash;
-    private SearchAdapter searchAdapter;
+    private ArrayList<SearchItemData> arrayList, totalList, resultList;
+    private ArrayList<String> keyBattery, keyClothes, keyGlass, keyMetal, keyPaper, keyPlastic, keyTrash;
+    private SearchAdapter searchAdapter, resultAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private EditText et_searchBar;
     private Button btn_searchBar;
     private String str;
+    private TextView tv_title, tv_title_result;
     private static final int REQUEST_CODE = 26;  // detailActivity와 연결을 위한 임의의 상수 값을 선언
 
     @Override
@@ -39,14 +43,8 @@ public class SearchActivity extends AppCompatActivity {
 
         et_searchBar = findViewById(R.id.et_searchbar);
         btn_searchBar = findViewById(R.id.btn_searchbar);
-
-        // editText가 활성화 되었을 때 버튼 생성
-        et_searchBar.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                btn_searchBar.setVisibility(View.VISIBLE);
-            }
-        });
+        tv_title = findViewById(R.id.tv_searh);
+        tv_title_result = findViewById(R.id.tv_searh_result);
 
         // 검색 키워드를 정의
         keyBattery = new ArrayList<>();
@@ -83,6 +81,29 @@ public class SearchActivity extends AppCompatActivity {
         keyTrash.add("거울");
         keyTrash.add("깨진유리");
 
+        // totalList 만들기 + 초기화
+        totalList = new ArrayList<>();
+        for (int i = 0; i < keyTrash.size(); i++) {
+            totalList.add(new SearchItemData(R.drawable.icon_trash, keyTrash.get(i), 0));
+        }
+        for (int i = 0; i < keyPlastic.size(); i++) {
+            totalList.add(new SearchItemData(R.drawable.icon_plastic, keyPlastic.get(i), 0));
+        }
+        for (int i = 0; i < keyPaper.size(); i++) {
+            totalList.add(new SearchItemData(R.drawable.icon_paper, keyPaper.get(i), 0));
+        }
+        for (int i = 0; i < keyMetal.size(); i++) {
+            totalList.add(new SearchItemData(R.drawable.icon_can, keyMetal.get(i), 0));
+        }
+        for (int i = 0; i < keyGlass.size(); i++) {
+            totalList.add(new SearchItemData(R.drawable.icon_glass, keyGlass.get(i), 0));
+        }
+        for (int i = 0; i < keyClothes.size(); i++) {
+            totalList.add(new SearchItemData(R.drawable.icon_tshirt, keyClothes.get(i), 0));
+        }
+        for (int i = 0; i < keyBattery.size(); i++) {
+            totalList.add(new SearchItemData(R.drawable.icon_battery, keyBattery.get(i), 0));
+        }
 
         // 버튼을 눌렀을 때 + 엔터키를 눌렀을 때 intent가 실행
         btn_searchBar.setOnClickListener(new View.OnClickListener() {
@@ -135,15 +156,68 @@ public class SearchActivity extends AppCompatActivity {
 //        arrayList.add(new SearchItemData(R.drawable.icon_glass, "유리류", 0));
 //        arrayList.add(new SearchItemData(R.drawable.icon_paper, "종이류", 0));
 
-
         searchAdapter = new SearchAdapter(arrayList);
         recyclerView.setAdapter(searchAdapter);
-
 
         SearchAdapter searchAdapter = new SearchAdapter(arrayList);
         RecyclerView recyclerView = findViewById(R.id.rv_search);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(searchAdapter);
+
+        // editText가 활성화 되었을 때의 이벤트
+        et_searchBar.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                // 1. 검색 버튼 생성
+                btn_searchBar.setVisibility(View.VISIBLE);
+
+                // 2. 출력될 정보의 제목 변경
+                tv_title.setVisibility(TextView.GONE);
+                tv_title_result.setVisibility(TextView.VISIBLE);
+
+                // 3. resultList 만들기
+                resultList = new ArrayList<>();
+                resultList.addAll(totalList);
+
+                // resultList 연동될 어뎁터 생성
+                resultAdapter = new SearchAdapter(resultList);
+                recyclerView.setAdapter(resultAdapter);
+            }
+        });
+
+        et_searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {  // text에 변화가 있을 때마다
+                str = et_searchBar.getText().toString();
+                search(str);
+            }
+        });
+    }
+
+    public void search(String keyword) {
+        resultList.clear();
+
+        if (keyword.length() == 0) {
+            resultList.addAll(totalList);
+        } else {
+            for (int i = 0; i < totalList.size(); i++) {
+                if (totalList.get(i).getName().contains(str)) {
+                    resultList.add(totalList.get(i));
+                }
+            }
+        }
+        // result 내용을 갱신
+        resultAdapter.notifyDataSetChanged();
     }
 
     // 검색 키워드를 특정 종류로 일반화하는 함수
@@ -173,6 +247,11 @@ public class SearchActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE) {
             et_searchBar.getText().clear();
             et_searchBar.clearFocus();
+
+            // 되돌아 왔을 때, activity 상태를 초기화해준다.
+            btn_searchBar.setVisibility(View.GONE);
+            tv_title.setVisibility(TextView.VISIBLE);
+            tv_title_result.setVisibility(TextView.GONE);
         }
     }
 
