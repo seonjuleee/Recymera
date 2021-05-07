@@ -1,13 +1,12 @@
 package org.tensorflow.lite.examples.classification;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -79,10 +78,8 @@ public class DetailActivity extends AppCompatActivity {
                 Collections.addAll(items, res.getStringArray(R.array.trash));
                 break;
         }
-        System.out.println(1);
         for (String i : items) {
             // title과 content로 나누기
-            System.out.println(2);
             String[] result = i.split(";");
             arrayList.add(new DetailItemData(result[0].toString(), result[1].toString()));
         }

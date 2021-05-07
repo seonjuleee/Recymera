@@ -39,6 +39,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.CustomView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int count = arrayList.get(position).getCount();
+                arrayList.get(position).setCount(++count);
                 String curName = holder.tv_search_item.getText().toString();
                 Toast.makeText(v.getContext(), curName, Toast.LENGTH_SHORT).show();
             }
