@@ -1,22 +1,24 @@
 package org.tensorflow.lite.examples.classification;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.lang.reflect.Array;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -109,7 +111,6 @@ public class SearchActivity extends AppCompatActivity {
                     if (str.length() > 0) {
                         str = classifier(str);
                         Intent intent = new Intent(SearchActivity.this, DetailActivity.class);
-
                         intent.putExtra("title", str);
                         //startActivity(intent);
                         startActivityForResult(intent, REQUEST_CODE);
@@ -128,10 +129,11 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         arrayList = new ArrayList<>();
+        arrayList = readSharedPreferences();
 
-        arrayList.add(new SearchItemData(R.drawable.icon_plastic, "플라스틱류"));
-        arrayList.add(new SearchItemData(R.drawable.icon_glass, "유리류"));
-        arrayList.add(new SearchItemData(R.drawable.icon_paper, "종이류"));
+//        arrayList.add(new SearchItemData(R.drawable.icon_plastic, "플라스틱류", 0));
+//        arrayList.add(new SearchItemData(R.drawable.icon_glass, "유리류", 0));
+//        arrayList.add(new SearchItemData(R.drawable.icon_paper, "종이류", 0));
 
 
         searchAdapter = new SearchAdapter(arrayList);
@@ -173,4 +175,64 @@ public class SearchActivity extends AppCompatActivity {
             et_searchBar.clearFocus();
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        saveSharedPreferences(arrayList);
+    }
+
+    private void saveSharedPreferences(ArrayList<SearchItemData> list) {
+        // SharedPreferences로 데이터 save
+        // JSON 파싱해서 다시 저장
+        SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        editor.putString("SearchObjectList", json);
+        editor.commit();
+    }
+
+    private ArrayList<SearchItemData> readSharedPreferences() {
+        // SharedPreferences로 데이터 read
+        SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("SearchObjectList", "");
+        // JSON to object list
+        Type type = new TypeToken<ArrayList<SearchItemData>>(){}.getType();
+        ArrayList<SearchItemData> searchItemList = gson.fromJson(json, type);
+        try {
+            return sortSearchItemData(searchItemList);
+        } catch(NullPointerException npe) {
+            return new ArrayList<>();
+        }
+    }
+
+    //
+    private ArrayList<SearchItemData> sortSearchItemData(ArrayList<SearchItemData> list) {
+        // sort
+        Collections.sort(list, new Comparator<SearchItemData>() {
+            @Override
+            public int compare(SearchItemData o1, SearchItemData o2) {
+                return o2.getCount() - o1.getCount();
+            }
+        });
+
+        // 5개만 뽑아서 저장하기
+        ArrayList<SearchItemData> result = new ArrayList<>();
+        int resultCount = 0;
+        if (list.size() > 5) {
+            for (int i=0; i<5; i++) {
+                result.add(list.get(i));
+            }
+        } else {
+            for (SearchItemData item : list) {
+                result.add(item);
+            }
+        }
+
+        return result;
+    }
 }
+
