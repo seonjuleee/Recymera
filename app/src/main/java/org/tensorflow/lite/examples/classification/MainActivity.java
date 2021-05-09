@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.tensorflow.lite.examples.classification.tflite.Classifier;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
