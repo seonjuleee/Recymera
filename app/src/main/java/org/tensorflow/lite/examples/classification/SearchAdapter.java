@@ -1,11 +1,11 @@
 package org.tensorflow.lite.examples.classification;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,9 +15,11 @@ import java.util.ArrayList;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.CustomViewHolder>{
 
     private ArrayList<SearchItemData> arrayList;
+    private OnItemClickListener callback;
 
-    public SearchAdapter(ArrayList<SearchItemData> arrayList) {
+    public SearchAdapter(ArrayList<SearchItemData> arrayList, OnItemClickListener callback) {
         this.arrayList = arrayList;
+        this.callback = callback;
     }
 
     @NonNull
@@ -41,8 +43,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.CustomView
             public void onClick(View v) {
                 int count = arrayList.get(position).getCount();
                 arrayList.get(position).setCount(++count);
-                String curName = holder.tv_search_item.getText().toString();
-                Toast.makeText(v.getContext(), curName, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(v.getContext(), DetailActivity.class);
+                System.out.println(1);
+                String tmp = holder.tv_search_item.getText().toString();
+                System.out.println(tmp);
+                String title = callback.onItemClick(tmp);
+                System.out.println(2);
+                intent.putExtra("title", title);
+                v.getContext().startActivity(intent);
             }
         });
     }

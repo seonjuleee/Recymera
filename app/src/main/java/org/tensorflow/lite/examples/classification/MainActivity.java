@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.tensorflow.lite.examples.classification.tflite.Classifier;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,9 +54,13 @@ public class MainActivity extends AppCompatActivity {
 
         arrayList = new ArrayList<>();
 
-        arrayList.add(new MainItemData(R.drawable.ic_launcher_foreground, "플라스틱류"));
-        arrayList.add(new MainItemData(R.drawable.ic_launcher_foreground, "유리류"));
-        arrayList.add(new MainItemData(R.drawable.ic_launcher_foreground, "종이류"));
+        arrayList.add(new MainItemData(R.drawable.icon_plastic, "플라스틱류"));
+        arrayList.add(new MainItemData(R.drawable.icon_glass, "유리류"));
+        arrayList.add(new MainItemData(R.drawable.icon_paper, "종이류"));
+//        arrayList.add(new MainItemData(R.drawable.icon_can, "캔류"));
+//        arrayList.add(new MainItemData(R.drawable.icon_tshirt, "의류"));
+//        arrayList.add(new MainItemData(R.drawable.icon_battery, "폐건전지류"));
+//        arrayList.add(new MainItemData(R.drawable.icon_trash, "일반쓰레기"));
 
 
         mainAdapter = new MainAdapter(arrayList);

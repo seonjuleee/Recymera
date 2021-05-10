@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements OnItemClickListener {
 
     private ArrayList<SearchItemData> arrayList, totalList, resultList;
     private ArrayList<String> keyBattery, keyClothes, keyGlass, keyMetal, keyPaper, keyPlastic, keyTrash;
@@ -36,6 +36,12 @@ public class SearchActivity extends AppCompatActivity {
     private String str;
     private TextView tv_title, tv_title_result;
     private static final int REQUEST_CODE = 26;  // detailActivity와 연결을 위한 임의의 상수 값을 선언
+
+    @Override
+    public String onItemClick (String name) {
+        System.out.println(3);
+        return classifier(name);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,10 +164,10 @@ public class SearchActivity extends AppCompatActivity {
 //        arrayList.add(new SearchItemData(R.drawable.icon_glass, "유리류", 0));
 //        arrayList.add(new SearchItemData(R.drawable.icon_paper, "종이류", 0));
 
-        searchAdapter = new SearchAdapter(arrayList);
+        searchAdapter = new SearchAdapter(arrayList, this);
         recyclerView.setAdapter(searchAdapter);
 
-        SearchAdapter searchAdapter = new SearchAdapter(arrayList);
+        SearchAdapter searchAdapter = new SearchAdapter(arrayList, this);
         RecyclerView recyclerView = findViewById(R.id.rv_search);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(searchAdapter);
@@ -182,7 +188,7 @@ public class SearchActivity extends AppCompatActivity {
                 resultList.addAll(totalList);
 
                 // resultList 연동될 어뎁터 생성
-                resultAdapter = new SearchAdapter(resultList);
+                resultAdapter = new SearchAdapter(resultList, SearchActivity.this);
                 recyclerView.setAdapter(resultAdapter);
             }
         });
