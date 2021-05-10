@@ -88,7 +88,7 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
         keyTrash.add("거울");
         keyTrash.add("깨진유리");
 
-        // totalList 만들기 + 초기화
+        // totalList 초기화
         totalList = new ArrayList<>();
         for (int i = 0; i < keyTrash.size(); i++) {
             totalList.add(new SearchItemData(R.drawable.icon_trash, keyTrash.get(i), 0));
