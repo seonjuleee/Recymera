@@ -1,5 +1,6 @@
 package org.tensorflow.lite.examples.classification;
 
+import android.accessibilityservice.AccessibilityService;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -140,7 +141,8 @@ public class SearchActivity extends AppCompatActivity {
                         et_searchBar.getText().clear();
                     }
                 }
-                return true;
+                // 이후 모든 키 이벤트를 실행시키지 않음
+                return false;
             }
         });
 
@@ -202,6 +204,7 @@ public class SearchActivity extends AppCompatActivity {
                 search(str);
             }
         });
+
     }
 
     public void search(String keyword) {
