@@ -1,11 +1,14 @@
 package org.tensorflow.lite.examples.classification;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private GridLayoutManager gridLayoutManager;
-
     private Button btn_search, btn_camera;
 
     @Override
@@ -57,10 +59,10 @@ public class MainActivity extends AppCompatActivity {
         arrayList.add(new MainItemData(R.drawable.icon_plastic, "플라스틱류"));
         arrayList.add(new MainItemData(R.drawable.icon_glass, "유리류"));
         arrayList.add(new MainItemData(R.drawable.icon_paper, "종이류"));
-//        arrayList.add(new MainItemData(R.drawable.icon_can, "캔류"));
-//        arrayList.add(new MainItemData(R.drawable.icon_tshirt, "의류"));
-//        arrayList.add(new MainItemData(R.drawable.icon_battery, "폐건전지류"));
-//        arrayList.add(new MainItemData(R.drawable.icon_trash, "일반쓰레기"));
+        arrayList.add(new MainItemData(R.drawable.icon_can, "캔류"));
+        arrayList.add(new MainItemData(R.drawable.icon_tshirt, "의류"));
+        arrayList.add(new MainItemData(R.drawable.icon_battery, "폐건전지류"));
+        arrayList.add(new MainItemData(R.drawable.icon_trash, "일반쓰레기"));
 
 
         mainAdapter = new MainAdapter(arrayList);
