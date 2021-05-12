@@ -1,6 +1,5 @@
 package org.tensorflow.lite.examples.classification;
 
-import android.accessibilityservice.AccessibilityService;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -38,9 +37,36 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
     private static final int REQUEST_CODE = 26;  // detailActivity와 연결을 위한 임의의 상수 값을 선언
 
     @Override
+    public void onArrayItemClick (int pos) {
+        // arrayList에서 클릭한 경우
+        SearchItemData obj = arrayList.get(pos);
+        obj.setCount(obj.getCount() + 1);
+        arrayList.set(pos, obj);
+    }
+
+    @Override
+    public void onResultItemClick (int pos) {
+        // resultList에서 클릭한 경우
+        SearchItemData obj = resultList.get(pos);
+        if (arrayList.contains(obj)) {
+            arrayList.get(findIndexByName(obj.getName(), arrayList)).setCount(obj.getCount() + 1);
+        } else {
+            obj.setCount(1);
+            arrayList.add(obj);
+        }
+    }
+
+    @Override
     public String onItemClick (String name) {
-        System.out.println(3);
         return classifier(name);
+    }
+
+    // name으로 해당하는 인덱스 찾기
+    public int findIndexByName(String name, ArrayList<SearchItemData> list) {
+        for (int i=0; i<list.size(); i++) {
+            if (list.get(i).getName().equals(name)) return i;
+        }
+        return -1;
     }
 
     @Override
@@ -160,16 +186,7 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
         arrayList = new ArrayList<>();
         arrayList = readSharedPreferences();
 
-//        arrayList.add(new SearchItemData(R.drawable.icon_plastic, "플라스틱류", 0));
-//        arrayList.add(new SearchItemData(R.drawable.icon_glass, "유리류", 0));
-//        arrayList.add(new SearchItemData(R.drawable.icon_paper, "종이류", 0));
-
-        searchAdapter = new SearchAdapter(arrayList, this);
-        recyclerView.setAdapter(searchAdapter);
-
-        SearchAdapter searchAdapter = new SearchAdapter(arrayList, this);
-        RecyclerView recyclerView = findViewById(R.id.rv_search);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        searchAdapter = new SearchAdapter(arrayList, this, 0);
         recyclerView.setAdapter(searchAdapter);
 
         // editText가 활성화 되었을 때의 이벤트
@@ -188,7 +205,7 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
                 resultList.addAll(totalList);
 
                 // resultList 연동될 어뎁터 생성
-                resultAdapter = new SearchAdapter(resultList, SearchActivity.this);
+                resultAdapter = new SearchAdapter(resultList, SearchActivity.this, 1);
                 recyclerView.setAdapter(resultAdapter);
             }
         });
@@ -261,6 +278,8 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
             btn_searchBar.setVisibility(View.GONE);
             tv_title.setVisibility(TextView.VISIBLE);
             tv_title_result.setVisibility(TextView.GONE);
+
+            searchAdapter.notifyDataSetChanged();
         }
     }
 

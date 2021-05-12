@@ -16,10 +16,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.CustomView
 
     private ArrayList<SearchItemData> arrayList;
     private OnItemClickListener callback;
+    private int type;
 
-    public SearchAdapter(ArrayList<SearchItemData> arrayList, OnItemClickListener callback) {
+    public SearchAdapter(ArrayList<SearchItemData> arrayList, OnItemClickListener callback, int type) {
         this.arrayList = arrayList;
         this.callback = callback;
+        this.type = type;
     }
 
     @NonNull
@@ -41,15 +43,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.CustomView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int count = arrayList.get(position).getCount();
-                arrayList.get(position).setCount(++count);
+                // 1. arrayList에서 클릭한 경우
+                if (type == 0) {
+                    callback.onArrayItemClick(position);
+                } else { // 2. resultList에서 클릭한 경우
+                    callback.onResultItemClick(position);
+                }
                 Intent intent = new Intent(v.getContext(), DetailActivity.class);
-                System.out.println(1);
-                String tmp = holder.tv_search_item.getText().toString();
-                System.out.println(tmp);
-                String title = callback.onItemClick(tmp);
-                System.out.println(2);
-                intent.putExtra("title", title);
+                intent.putExtra("title", callback.onItemClick(arrayList.get(position).getName()));
                 v.getContext().startActivity(intent);
             }
         });
