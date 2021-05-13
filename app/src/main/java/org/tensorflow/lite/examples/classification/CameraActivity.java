@@ -35,9 +35,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Trace;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
 import android.view.View;
@@ -49,15 +46,19 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
+
 import androidx.annotation.UiThread;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import java.nio.ByteBuffer;
-import java.util.List;
+
 import org.tensorflow.lite.examples.classification.env.ImageUtils;
 import org.tensorflow.lite.examples.classification.env.Logger;
 import org.tensorflow.lite.examples.classification.tflite.Classifier.Device;
 import org.tensorflow.lite.examples.classification.tflite.Classifier.Recognition;
+
+import java.nio.ByteBuffer;
+import java.util.List;
 
 public abstract class CameraActivity extends AppCompatActivity
     implements OnImageAvailableListener,
@@ -581,7 +582,7 @@ public abstract class CameraActivity extends AppCompatActivity
       if (recognition != null) {
         // 2. 값이 40프로 이상 되면 bottom_sheet visible
         if (recognition.getConfidence() != null) {
-          if (recognition.getConfidence() > 0.4) {
+          if (recognition.getConfidence() > 0.55) {
             bottomSheetLayout.setVisibility(View.VISIBLE);
             if (recognition.getTitle() != null) {
               //recognitionTextView.setText(recognition.getTitle());
