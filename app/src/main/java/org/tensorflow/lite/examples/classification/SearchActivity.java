@@ -48,8 +48,9 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
     public void onResultItemClick (int pos) {
         // resultList에서 클릭한 경우
         SearchItemData obj = resultList.get(pos);
-        if (arrayList.contains(obj)) {
-            arrayList.get(findIndexByName(obj.getName(), arrayList)).setCount(obj.getCount() + 1);
+        int index = findIndexByName(obj.getName(), arrayList);
+        if (index != -1) {
+            arrayList.get(index).setCount(arrayList.get(index).getCount() + 1);
         } else {
             obj.setCount(1);
             arrayList.add(obj);
@@ -189,26 +190,8 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
         searchAdapter = new SearchAdapter(arrayList, this, 0);
         recyclerView.setAdapter(searchAdapter);
 
-        // editText가 활성화 되었을 때의 이벤트
-        et_searchBar.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                // 1. 검색 버튼 생성
-                btn_searchBar.setVisibility(View.VISIBLE);
-
-                // 2. 출력될 정보의 제목 변경
-                tv_title.setVisibility(TextView.GONE);
-                tv_title_result.setVisibility(TextView.VISIBLE);
-
-                // 3. resultList 만들기
-                resultList = new ArrayList<>();
-                resultList.addAll(totalList);
-
-                // resultList 연동될 어뎁터 생성
-                resultAdapter = new SearchAdapter(resultList, SearchActivity.this, 1);
-                recyclerView.setAdapter(resultAdapter);
-            }
-        });
+        resultList = new ArrayList<>();
+        resultAdapter = new SearchAdapter(resultList, SearchActivity.this, 1);
 
         et_searchBar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -231,19 +214,35 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
     }
 
     public void search(String keyword) {
-        resultList.clear();
-
         if (keyword.length() == 0) {
-            resultList.addAll(totalList);
+            // 1. 검색 버튼 삭제
+            btn_searchBar.setVisibility(View.GONE);
+
+            // 2. 출력될 정보의 제목 변경
+            tv_title.setVisibility(TextView.VISIBLE);
+            tv_title_result.setVisibility(TextView.GONE);
+
+            recyclerView.setAdapter(searchAdapter);
+            searchAdapter.notifyDataSetChanged();
         } else {
+            resultList.clear();
+            // 1. 검색 버튼 생성
+            btn_searchBar.setVisibility(View.VISIBLE);
+
+            // 2. 출력될 정보의 제목 변경
+            tv_title.setVisibility(TextView.GONE);
+            tv_title_result.setVisibility(TextView.VISIBLE);
+
+            // 3. resultList 만들기
             for (int i = 0; i < totalList.size(); i++) {
                 if (totalList.get(i).getName().contains(str)) {
                     resultList.add(totalList.get(i));
                 }
             }
+            // result 내용을 갱신
+            resultAdapter.notifyDataSetChanged();
+            recyclerView.setAdapter(resultAdapter);
         }
-        // result 내용을 갱신
-        resultAdapter.notifyDataSetChanged();
     }
 
     // 검색 키워드를 특정 종류로 일반화하는 함수
@@ -273,11 +272,6 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
         if (requestCode == REQUEST_CODE) {
             et_searchBar.getText().clear();
             et_searchBar.clearFocus();
-
-            // 되돌아 왔을 때, activity 상태를 초기화해준다.
-            btn_searchBar.setVisibility(View.GONE);
-            tv_title.setVisibility(TextView.VISIBLE);
-            tv_title_result.setVisibility(TextView.GONE);
 
             searchAdapter.notifyDataSetChanged();
         }
@@ -316,7 +310,6 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
         }
     }
 
-    //
     private ArrayList<SearchItemData> sortSearchItemData(ArrayList<SearchItemData> list) {
         // sort
         Collections.sort(list, new Comparator<SearchItemData>() {
@@ -328,7 +321,6 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
 
         // 5개만 뽑아서 저장하기
         ArrayList<SearchItemData> result = new ArrayList<>();
-        int resultCount = 0;
         if (list.size() > 5) {
             for (int i=0; i<5; i++) {
                 result.add(list.get(i));
