@@ -1,5 +1,6 @@
 package org.tensorflow.lite.examples.classification;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,13 +46,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.CustomView
             public void onClick(View v) {
                 // 1. arrayList에서 클릭한 경우
                 if (type == 0) {
-                    callback.onArrayItemClick(position);
+                    callback.onSortItemClick(position);
+                    Intent intent = new Intent(v.getContext(), DetailActivity.class);
+                    intent.putExtra("title", callback.onItemClick(arrayList.get(position).getName()));
+//                    ((Activity)v.getContext()).setResult(25, intent);
+//                    ((Activity) v.getContext()).finish();
+                    ((Activity)v.getContext()).startActivityForResult(intent, 25);
                 } else { // 2. resultList에서 클릭한 경우
                     callback.onResultItemClick(position);
+                    Intent intent = new Intent(v.getContext(), DetailActivity.class);
+                    intent.putExtra("title", callback.onItemClick(arrayList.get(position).getName()));
+                    v.getContext().startActivity(intent);
                 }
-                Intent intent = new Intent(v.getContext(), DetailActivity.class);
-                intent.putExtra("title", callback.onItemClick(arrayList.get(position).getName()));
-                v.getContext().startActivity(intent);
             }
         });
     }
