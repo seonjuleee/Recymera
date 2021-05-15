@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity{
             float y = event.values[1];
             float z = event.values[2];
             accelLast = accelCurrent;
-            accelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
+            accelCurrent = (float) Math.sqrt((double) (x*x + y*y + z*z));
             float delta = accelCurrent - accelLast;
             accel = accel * 0.9f + delta;
             if (accel > 12) {
