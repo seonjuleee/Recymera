@@ -1,7 +1,12 @@
 package org.tensorflow.lite.examples.classification;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -13,9 +18,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import org.tensorflow.lite.examples.classification.tflite.Classifier;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.Objects;
+
+public class MainActivity extends AppCompatActivity{
 
     private ArrayList<MainItemData> arrayList;
     private MainAdapter mainAdapter;
@@ -24,10 +32,15 @@ public class MainActivity extends AppCompatActivity {
     private GridLayoutManager gridLayoutManager;
     private Button btn_search, btn_camera;
 
+    // shake event 변수
+    private SensorManager sensorManager;
+    private float accel;
+    private float accelCurrent;
+    private float accelLast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
         btn_search = findViewById(R.id.btn_search) ;
@@ -67,5 +80,46 @@ public class MainActivity extends AppCompatActivity {
 
         mainAdapter = new MainAdapter(arrayList);
         recyclerView.setAdapter(mainAdapter);
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        Objects.requireNonNull(sensorManager).registerListener(sensorListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+        accel = 10f;
+        accelCurrent = SensorManager.GRAVITY_EARTH;
+        accelLast = SensorManager.GRAVITY_EARTH;
+    }
+
+    private final SensorEventListener sensorListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+            accelLast = accelCurrent;
+            accelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
+            float delta = accelCurrent - accelLast;
+            accel = accel * 0.9f + delta;
+            if (accel > 12) {
+                Intent intent = new Intent(getApplicationContext(), ClassifierActivity.class);
+                startActivity(intent);
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    };
+    @Override
+    protected void onResume() {
+        sensorManager.registerListener(sensorListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        sensorManager.unregisterListener(sensorListener);
+        super.onPause();
     }
 }
