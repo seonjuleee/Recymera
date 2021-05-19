@@ -21,6 +21,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
@@ -41,6 +42,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -81,7 +83,7 @@ public abstract class CameraActivity extends AppCompatActivity
   private int yRowStride;
   private Runnable postInferenceCallback;
   private Runnable imageConverter;
-  private LinearLayout bottomSheetLayout;
+  private FrameLayout bottomSheetLayout;
   private LinearLayout gestureLayout;
   private BottomSheetBehavior<LinearLayout> sheetBehavior;
   protected TextView recognitionTextView,
@@ -587,45 +589,47 @@ public abstract class CameraActivity extends AppCompatActivity
             if (recognition.getTitle() != null) {
               //recognitionTextView.setText(recognition.getTitle());
 
+              recognitionTextView.setTypeface(null, Typeface.BOLD);
+
               switch (recognition.getTitle()) {
                 case "plastic" :
-                  recognitionTextView.setText("플라스틱류");
                   recognitionImageView.setImageResource(R.drawable.img_plastic);
+                  recognitionTextView.setText("플라스틱류");
                   recognitionInfoTextView.setText("내용물을 비우고 다른 재질로 된 부분(부착상표 등)을 제거한 후 배출합니다");
                   break;
                 case "metal" :
-                  recognitionTextView.setText("캔류");
                   recognitionImageView.setImageResource(R.drawable.img_metal);
+                  recognitionTextView.setText("캔류");
                   recognitionInfoTextView.setText("내용물을 비우고 겉 또는 속의 플라스틱 뚜껑 등은 제거한 후 배출합니다");
                   break;
                 case "glass" :
-                  recognitionTextView.setText("유리류");
                   recognitionImageView.setImageResource(R.drawable.img_glass);
+                  recognitionTextView.setText("유리류");
                   recognitionInfoTextView.setText("병뚜껑을 제거한 후 내용물을 비우고 배출합니다");
                   break;
                 case "paper" :
-                  recognitionTextView.setText("종이류");
                   recognitionImageView.setImageResource(R.drawable.img_paper);
+                  recognitionTextView.setText("종이류");
                   recognitionInfoTextView.setText("물기에 젖지 않도록 하고 펴서 차곡차곡 쌓은 후 묶어서 배출합니다");
                   break;
                 case "clothes" :
-                  recognitionTextView.setText("의류");
                   recognitionImageView.setImageResource(R.drawable.img_clothes);
+                  recognitionTextView.setText("의류");
                   recognitionInfoTextView.setText("의류수거함에 배출합니다");
                   break;
                 case "shoes" :
-                  recognitionTextView.setText("의류");
                   recognitionImageView.setImageResource(R.drawable.img_clothes);
+                  recognitionTextView.setText("의류");
                   recognitionInfoTextView.setText("의류수거함에 배출합니다");
                   break;
                 case "battery" :
-                  recognitionTextView.setText("폐건전지");
                   recognitionImageView.setImageResource(R.drawable.img_battery);
+                  recognitionTextView.setText("폐건전지");
                   recognitionInfoTextView.setText("동 행정복지센터 및 아파트 내 전용수거함에 배출합니다");
                   break;
                 default:
-                  recognitionTextView.setText("일반쓰레기");
                   recognitionImageView.setImageResource(R.drawable.img_trash);
+                  recognitionTextView.setText("일반쓰레기");
                   recognitionInfoTextView.setText("일방 종량제 봉투에 담아서 배출합니다");
                   break;
               }
