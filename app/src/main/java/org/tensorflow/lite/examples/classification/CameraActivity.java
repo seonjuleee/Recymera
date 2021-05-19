@@ -589,6 +589,7 @@ public abstract class CameraActivity extends AppCompatActivity
             if (recognition.getTitle() != null) {
               //recognitionTextView.setText(recognition.getTitle());
 
+              // 분류명 속성에 bold 추가
               recognitionTextView.setTypeface(null, Typeface.BOLD);
 
               switch (recognition.getTitle()) {
