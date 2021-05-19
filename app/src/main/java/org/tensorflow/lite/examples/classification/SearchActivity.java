@@ -183,7 +183,7 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
     public void search(String keyword) {
         if (keyword.length() == 0) {
             // 1. 검색 버튼 삭제
-            btn_searchBar.setVisibility(View.GONE);
+//            btn_searchBar.setVisibility(View.INVISIBLE);
 
             // 2. 출력될 정보의 제목 변경
             tv_title.setVisibility(TextView.VISIBLE);
@@ -196,7 +196,7 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
         } else {
             resultList.clear();
             // 1. 검색 버튼 생성
-            btn_searchBar.setVisibility(View.VISIBLE);
+//            btn_searchBar.setVisibility(View.VISIBLE);
 
             // 2. 출력될 정보의 제목 변경
             tv_title.setVisibility(TextView.GONE);
