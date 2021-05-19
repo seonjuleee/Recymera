@@ -11,9 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="2dp"
-        tools:cardCornerRadius="10dp">
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="5dp"
+        tools:cardCornerRadius="20dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -36,8 +37,10 @@
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
                 android:background="#FFFFFF"
+                android:fontFamily="sans-serif-medium"
                 android:gravity="center"
                 android:text="item"
+                android:textColor="#1bae4d"
                 android:textSize="20sp" />
         </LinearLayout>
 
