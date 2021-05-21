@@ -1,6 +1,5 @@
 package org.tensorflow.lite.examples.classification;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -8,17 +7,13 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.tensorflow.lite.examples.classification.tflite.Classifier;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -69,7 +64,7 @@ public class MainActivity extends AppCompatActivity{
 
         arrayList = new ArrayList<>();
 
-        arrayList.add(new MainItemData(R.drawable.icon_plastic, "플라스틱류"));
+        arrayList.add(new MainItemData(R.drawable.icon_plastic, "플라스티이이이이익류"));
         arrayList.add(new MainItemData(R.drawable.icon_glass, "유리류"));
         arrayList.add(new MainItemData(R.drawable.icon_paper, "종이류"));
         arrayList.add(new MainItemData(R.drawable.icon_can, "캔류"));

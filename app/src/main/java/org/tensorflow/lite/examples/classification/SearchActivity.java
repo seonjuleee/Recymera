@@ -152,10 +152,8 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
 
         arrayList = new ArrayList<>();
         arrayList = readSharedPreferences();
-        sortList = sortSearchItemData(arrayList);
 
-        searchAdapter = new SearchAdapter(sortList, this, 0);
-        recyclerView.setAdapter(searchAdapter);
+        showSortAdapter(arrayList);
 
         resultList = new ArrayList<>();
         resultAdapter = new SearchAdapter(resultList, SearchActivity.this, 1);
@@ -188,11 +186,7 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
             // 2. 출력될 정보의 제목 변경
             tv_title.setVisibility(TextView.VISIBLE);
             tv_title_result.setVisibility(TextView.GONE);
-
-            sortList = sortSearchItemData(arrayList);
-//            searchAdapter.notifyDataSetChanged();
-            searchAdapter = new SearchAdapter(sortList, this, 0);
-            recyclerView.setAdapter(searchAdapter);
+            showSortAdapter(arrayList);
         } else {
             resultList.clear();
             // 1. 검색 버튼 생성
@@ -242,10 +236,7 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
             et_searchBar.getText().clear();
             et_searchBar.clearFocus();
         } else if (requestCode == 25) {
-            sortList = sortSearchItemData(arrayList);
-//            searchAdapter.notifyDataSetChanged();
-            searchAdapter = new SearchAdapter(sortList, this, 0);
-            recyclerView.setAdapter(searchAdapter);
+            showSortAdapter(arrayList);
         }
     }
 
@@ -274,11 +265,19 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
         // JSON to object list
         Type type = new TypeToken<ArrayList<SearchItemData>>(){}.getType();
         ArrayList<SearchItemData> searchItemList = gson.fromJson(json, type);
-        try {
-            return searchItemList;
-        } catch(NullPointerException npe) {
-            return new ArrayList<>();
+        if (searchItemList == null) return new ArrayList<>();
+        else return searchItemList;
+    }
+
+    private void showSortAdapter(ArrayList<SearchItemData> arrayList) {
+        System.out.println(2);
+        if (!arrayList.isEmpty()) {
+            sortList = sortSearchItemData(arrayList);
+            System.out.println(3);
         }
+        else sortList = new ArrayList<>();
+        searchAdapter = new SearchAdapter(sortList, this, 0);
+        recyclerView.setAdapter(searchAdapter);
     }
 
     private ArrayList<SearchItemData> sortSearchItemData(ArrayList<SearchItemData> list) {
@@ -317,6 +316,11 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
     public void onResultItemClick (int pos) {
         // resultList에서 클릭한 경우
         SearchItemData obj = resultList.get(pos);
+        if (arrayList.isEmpty()) {
+            obj.setCount(1);
+            arrayList.add(obj);
+            return;
+        }
         int index = findIndexByName(obj.getName(), arrayList);
         if (index != -1) {
             arrayList.get(index).setCount(arrayList.get(index).getCount() + 1);
