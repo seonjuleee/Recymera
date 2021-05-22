@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="metal">
+        <item>콜라캔</item>
+        <item>맥주캔</item>
+        <item>부탄가스통</item>
+        <item>음료수캔</item>
+        <item>깡통</item>
+        <item>커피캔</item>
+        <item>분유통</item>
+        <item>통조림캔</item>
+        <item>스프레이통</item>
+        <item>살충제통</item>
+        <item>면도젤통</item>
+        <item>거품통</item>
+        <item>깡통햄</item>
+        <item>스팸통</item>
+        <item>꽁치캔</item>
+        <item>CAN</item>
+        <item>스프레이용기</item>
+        <item>살충제용기</item>
+        <item>부탄가스용기</item>
+        <item>스팸캔</item>
+    </string-array>
+
+    <string-array name="clothes">
+        <item>양복</item>
+        <item>양장</item>
+        <item>면내의</item>
+        <item>점퍼</item>
+        <item>아동의류</item>
+        <item>면의류</item>
+        <item>교복</item>
+        <item>면섬유</item>
+        <item>마</item>
+        <item>면</item>
+        <item>울</item>
+        <item>모직</item>
+        <item>합성섬유</item>
+        <item>폴리에스테르</item>
+        <item>나일론</item>
+        <item>아크릴</item>
+        <item>폴리우레탄</item>
+        <item>가방</item>
+        <item>커튼</item>
+        <item>면티</item>
+    </string-array>
+
+    <string-array name="battery">
+        <item>수은전지</item>
+        <item>산화은전지</item>
+        <item>니켈카드뮴전지</item>
+        <item>리튬1차전지</item>
+        <item>망간전지</item>
+        <item>망간건전지</item>
+        <item>알칼리망간건전지</item>
+        <item>알칼리건전지</item>
+        <item>니켈수소전지</item>
+        <item>건전지</item>
+        <item>다쓴건전지</item>
+        <item>폐건전지</item>
+        <item>동전전지</item>
+        <item>AAA건전지</item>
+        <item>AA건전지</item>
+        <item>C건전지</item>
+        <item>D건전지</item>
+        <item>9V건전지</item>
+        <item>AAA</item>
+        <item>AA</item>
+    </string-array>
+</resources>
