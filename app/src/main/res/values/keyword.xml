@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="metal">
+    <string-array name="key_metal">
         <item>콜라캔</item>
         <item>맥주캔</item>
         <item>부탄가스통</item>
@@ -23,7 +23,7 @@
         <item>스팸캔</item>
     </string-array>
 
-    <string-array name="clothes">
+    <string-array name="key_clothes">
         <item>양복</item>
         <item>양장</item>
         <item>면내의</item>
@@ -46,7 +46,7 @@
         <item>면티</item>
     </string-array>
 
-    <string-array name="battery">
+    <string-array name="key_battery">
         <item>수은전지</item>
         <item>산화은전지</item>
         <item>니켈카드뮴전지</item>
@@ -67,5 +67,78 @@
         <item>9V건전지</item>
         <item>AAA</item>
         <item>AA</item>
+    </string-array>
+
+    <string-array name="key_plastic">
+        <item>페트병</item>
+        <item>플라스틱용기</item>
+        <item>포장용기</item>
+        <item>치약</item>
+        <item>칫솔</item>
+        <item>볼펜</item>
+        <item>뚜껑</item>
+        <item>빨대</item>
+        <item>일회용숟가락</item>
+        <item>일회용접시</item>
+        <item>음료수병</item>
+        <item>밀폐용기</item>
+        <item>도시락용기</item>
+        <item>우유병</item>
+        <item>세제용기</item>
+        <item>요구르트병</item>
+        <item>약병</item>
+        <item>약통</item>
+        <item>물병</item>
+        <item>물통</item>
+    </string-array>
+
+    <string-array name="key_glass">
+        <item>주스병</item>
+        <item>콜라병</item>
+        <item>유리병</item>
+        <item>맥주병</item>
+        <item>소주병</item>
+        <item>술병</item>
+        <item>소스병</item>
+        <item>내열유리</item>
+        <item>유리컵</item>
+        <item>깨진유리</item>
+        <item>유리화병</item>
+        <item>글라스락</item>
+        <item>잼통</item>
+        <item>스파게티병</item>
+        <item>유리뚜껑</item>
+        <item>전구</item>
+        <item>도자기류</item>
+        <item>와인잔</item>
+        <item>대형유리</item>
+        <item>강화유리</item>
+    </string-array>
+    
+    <string-array name="key_paper">
+        <item>우유팩</item>
+        <item>신문</item>
+        <item>공책</item>
+        <item>종이컵</item>
+        <item>상자</item>
+        <item>박스</item>
+        <item>노트</item>
+        <item>편지봉투</item>
+        <item>책</item>
+        <item>과자박스</item>
+        <item>종이봉투</item>
+        <item>책자</item>
+        <item>달력</item>
+        <item>종이팩</item>
+        <item>컵라면용기</item>
+        <item>영수증</item>
+        <item>코팅지</item>
+        <item>휴지</item>
+        <item>부직포</item>
+        <item>포장박스</item>
+    </string-array>
+
+    <string-array name="key_trash">
+        <item></item>
     </string-array>
 </resources>
