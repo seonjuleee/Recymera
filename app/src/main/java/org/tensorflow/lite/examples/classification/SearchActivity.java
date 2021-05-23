@@ -2,6 +2,7 @@ package org.tensorflow.lite.examples.classification;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -46,40 +47,27 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
         tv_title = findViewById(R.id.tv_searh);
         tv_title_result = findViewById(R.id.tv_searh_result);
 
-        // 검색 키워드를 정의
         keyBattery = new ArrayList<>();
-        keyBattery.add("건전지");
-
         keyClothes = new ArrayList<>();
-        keyClothes.add("가방");
-        keyClothes.add("커튼");
-        keyClothes.add("면티");
-
         keyGlass = new ArrayList<>();
-        keyGlass.add("주스병");
-        keyGlass.add("콜라병");
-
         keyMetal = new ArrayList<>();
-        keyMetal.add("부탄가스");
-        keyMetal.add("음료수캔");
-        keyMetal.add("철사");
-        keyMetal.add("못");
-
         keyPaper = new ArrayList<>();
-        keyPaper.add("우유팩");
-        keyPaper.add("신문");
-        keyPaper.add("공책");
-        keyPaper.add("종이컵");
-        keyPaper.add("상자");
-
         keyPlastic = new ArrayList<>();
-        keyPlastic.add("페트병");
-        keyPlastic.add("플라스틱용기");
+
+        // 검색 키워드를 정의
+        Resources res = getResources();
+        Collections.addAll(keyBattery, res.getStringArray(R.array.key_battery));
+        Collections.addAll(keyClothes, res.getStringArray(R.array.key_clothes));
+        Collections.addAll(keyGlass, res.getStringArray(R.array.key_glass));
+        Collections.addAll(keyMetal, res.getStringArray(R.array.key_metal));
+        Collections.addAll(keyPaper, res.getStringArray(R.array.key_paper));
+        Collections.addAll(keyPlastic, res.getStringArray(R.array.key_plastic));
+
 
         keyTrash = new ArrayList<>();
         keyTrash.add("가위");
         keyTrash.add("거울");
-        keyTrash.add("깨진유리");
+//        keyTrash.add("깨진유리");
 
         // totalList 초기화
         totalList = new ArrayList<>();
@@ -270,10 +258,8 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
     }
 
     private void showSortAdapter(ArrayList<SearchItemData> arrayList) {
-        System.out.println(2);
         if (!arrayList.isEmpty()) {
             sortList = sortSearchItemData(arrayList);
-            System.out.println(3);
         }
         else sortList = new ArrayList<>();
         searchAdapter = new SearchAdapter(sortList, this, 0);
