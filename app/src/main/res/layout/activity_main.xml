@@ -56,7 +56,7 @@
         android:id="@+id/btn_camera"
         android:layout_width="152dp"
         android:layout_height="48dp"
-        android:background="@drawable/main_btn_camera"
+        android:background="@drawable/ripple_custom"
         android:gravity="bottom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

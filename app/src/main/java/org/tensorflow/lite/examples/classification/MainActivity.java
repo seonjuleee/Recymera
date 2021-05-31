@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity{
 
         arrayList = new ArrayList<>();
 
-        arrayList.add(new MainItemData(R.drawable.icon_plastic, "플라스티이이이이익류"));
+        arrayList.add(new MainItemData(R.drawable.icon_plastic, "플라스틱류"));
         arrayList.add(new MainItemData(R.drawable.icon_glass, "유리류"));
         arrayList.add(new MainItemData(R.drawable.icon_paper, "종이류"));
         arrayList.add(new MainItemData(R.drawable.icon_can, "캔류"));
