@@ -16,11 +16,11 @@
         android:id="@+id/detected_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginTop="30dp"
-        android:paddingVertical="20dp"
+        android:background="@drawable/ripple_custom_camera"
+        android:orientation="vertical"
         android:paddingHorizontal="40dp"
-        android:background="@drawable/bottom_sheet_bg">
+        android:paddingVertical="20dp">
 
         <TextView
             android:id="@+id/detected_item"
@@ -28,8 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:text="TextView"
-            android:textSize="25sp"
-            android:textColor="#1BAE4D"/>
+            android:textColor="#1BAE4D"
+            android:textSize="25sp" />
 
         <TextView
             android:id="@+id/detected_item_info"
