@@ -29,7 +29,7 @@
             android:layout_marginBottom="20dp"
             android:text="TextView"
             android:textSize="25sp"
-            android:textColor="#1BAE4D"/>
+            android:textColor="#ffffff"/>
 
         <TextView
             android:id="@+id/detected_item_info"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:text="TextView"
-            android:textColor="#1BAE4D" />
+            android:textColor="#ffffff" />
 
     </LinearLayout>
 
