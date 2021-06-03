@@ -5,4 +5,12 @@
     <color name="tfe_color_accent">#425066</color>
 
     <color name="tfe_semi_transparent">#66000000</color>
+
+    <color name="colorPurple">#cf5ce2</color>
+    <color name="colorPink">#ffb2dd</color>
+    <color name="colorOrange">#ff844c</color>
+    <color name="colorGray">#bdbdbd</color>
+    <color name="colorGreen">#6abf69</color>
+    <color name="colorBlue">#0077c2</color>
+    <color name="colorBrown">#8d6e63</color>
 </resources>
